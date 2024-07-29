@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+        form {
+            background: white;
+            padding: 35px;
+            border-radius: 5px;
+            max-width: 400px;
+            margin: auto;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h2>Sales Data Form</h2>
+    <form id="orderForm" onsubmit="return validateForm()">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="contact">Contact Number</label>
+        <input type="tel" id="contact" name="contact" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="address">Address</label>
+        <textarea id="address" name="address" required></textarea>
+
+        <label for="orderDate">Order Date</label>
+        <input type="date" id="orderDate" name="orderDate" min="2024-07-01" max="2024-07-31" required>
+
+        <label for="product">Product</label>
+        <select id="product" name="product" required>
+            <option value="">Select a product</option>
+            <option value="Pain Au Chocolat">Pain Au Chocolat</option>
+            <option value="Croissants Aux Amandes">Croissants Aux Amandes</option>
+            <option value="Éclair">Éclair</option>
+            <option value="Dulce de Leche Macarons">Dulce de Leche Macarons</option>
+            <option value="Brioche">Brioche</option>
+            <option value="Fraisier">Fraisier</option>
+            <option value="Quatre Quarts">Quatre Quarts</option>
+            <option value="Gateau Saint Honoré">Gateau Saint Honoré</option>
+            <option value="Opera Cake">Opera Cake</option>
+            <option value="Charlotte Russe">Charlotte Russe</option>
+            <option value="Framboise Cupcakes with French Vanilla Buttercream">Framboise Cupcakes with French Vanilla Buttercream</option>
+            <option value="French Silk Cupcakes">French Silk Cupcakes</option>
+            <option value="Cupcake Moelleux Au Chocolat">Cupcake Moelleux Au Chocolat</option>
+            <option value="Cupcake Aux Amandes">Cupcake Aux Amandes</option>
+            <option value="Maple Bacon French Toast Cupcakes">Maple Bacon French Toast Cupcakes</option>
+            <option value="Sablé Breton 100g">Sablé Breton 100g</option>
+            <option value="Madeleine 100g">Madeleine 100g</option>
+            <option value="Eclair Cookies 100g">Eclair Cookies 100g</option>
+            <option value="Savory Palmiers with Brie and Cranberry 100g">Savory Palmiers with Brie and Cranberry 100g</option>
+            <option value="Meringues Au Chocolat 100g">Meringues Au Chocolat 100g</option>
+            <option value="Baking Powder 450g">Baking Powder 450g</option>
+            <option value="Sugar Paste 300g">Sugar Paste 300g</option>
+            <option value="Vanilla Extract 50ml">Vanilla Extract 50ml</option>
+            <option value="Chocolat Noir Tablets 45g">Chocolat Noir Tablets 45g</option>
+            <option value="All-purpose Flour (Farine T55) 1kg">All-purpose Flour (Farine T55) 1kg</option>
+            <option value="French Copper Measuring Cups (4pcs)">French Copper Measuring Cups (4pcs)</option>
+            <option value="Le Creuset's Spatula">Le Creuset's Spatula</option>
+            <option value="Dr.Cook Silicone Macaron Baking Mat (32.5cmx23cm)">Dr.Cook Silicone Macaron Baking Mat (32.5cmx23cm)</option>
+            <option value="Silikomart Madeleine Mold">Silikomart Madeleine Mold</option>
+            <option value="French Copper Mixing Bowl">French Copper Mixing Bowl</option>
+        </select>
+
+        <label for="quantity">Quantity</label>
+        <input type="number" id="quantity" name="quantity" min="1" required>
+
+        <button type="submit" id="submitBtn">Submit Order</button>
+    </form>
+
+    <script>
+        function validateForm() {
+            var name = document.getElementById("name").value.trim();
+            var contact = document.getElementById("contact").value.trim();
+            var email = document.getElementById("email").value.trim();
+            var address = document.getElementById("address").value.trim();
+            var orderDate = document.getElementById("orderDate").value.trim();
+            var product = document.getElementById("product").value;
+            var quantity = document.getElementById("quantity").value.trim();
+
+            var valid = true;
+
+            if (name === "" || contact === "" || email === "" || address === "" || orderDate === "" || product === "" || quantity === "") {
+                valid = false;
+            }
+
+            if (valid) {
+                storeData();
+            }
+
+            return false; 
+        }
+
+        function storeData() {
+            var order = {
+                name: document.getElementById("name").value,
+                contact: document.getElementById("contact").value,
+                email: document.getElementById("email").value,
+                address: document.getElementById("address").value,
+                orderDate: document.getElementById("orderDate").value,
+                product: document.getElementById("product").value,
+                quantity: document.getElementById("quantity").value
+            };
+
+            google.script.run.withSuccessHandler(() => {
+                var submitBtn = document.getElementById("submitBtn");
+                submitBtn.textContent = "Order Stored!";
+                setTimeout(() => {
+                    submitBtn.textContent = "Submit Order";
+                }, 2000);
+            }).storeData(order);
+        }
+    </script>
+</body>
+</html>
